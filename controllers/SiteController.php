@@ -65,9 +65,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new InfoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $model = new Info();
+        /*$searchModel = new InfoSearch();
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$model = new Info();
 
         if ($model->load(Yii::$app->request->post())) {
             $info = self::getInfo();
@@ -79,14 +79,10 @@ class SiteController extends Controller
             echo '</pre>';
 
             die();
-            $model = new Info();
+            //$model = new Info();
         }
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-           'model' => $model
-        ]);
+*/
+        return $this->render('index');
     }
 
     /**
