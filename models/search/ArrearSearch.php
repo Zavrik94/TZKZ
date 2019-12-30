@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\search\;
+namespace app\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -41,7 +41,6 @@ class ArrearSearch extends Arrear
     public function search($params)
     {
         $query = Arrear::find();
-
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -70,6 +69,7 @@ class ArrearSearch extends Arrear
             ->andFilterWhere(['ilike', 'bcc', $this->bcc])
             ->andFilterWhere(['ilike', 'bcc_name_ru', $this->bcc_name_ru])
             ->andFilterWhere(['ilike', 'bcc_name_kz', $this->bcc_name_kz]);
+
 
         return $dataProvider;
     }

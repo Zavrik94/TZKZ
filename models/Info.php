@@ -46,9 +46,9 @@ class Info
 
     public function saveAllInfo()
     {
-        $captcha = $this->resolveCaptcha();
+        /*$captcha = $this->resolveCaptcha();
         if (!$captcha) {
-            throw new \Exception('Fuck off!');
+            throw new \Exception('Can`t resolve captcha');
         }
 
         $our_request = json_encode([
@@ -71,14 +71,14 @@ class Info
         $this->request and $this->request->save();
 
         if (!$response->isOk) {
-            throw new \Exception('Fuck off!');
+            throw new \Exception('Server does not response');
         }
 
         $this->json = json_decode($response->content, true);
 
-        var_dump($this->json);
-        die;
-
+        //var_dump($this->json);
+        //die;*/
+        $this->json = json_decode("{\"nameRu\":\"ШЕПЕЛЕВ АЛЕКСАНДР ПЕТРОВИЧ\",\"nameKk\":\"ШЕПЕЛЕВ АЛЕКСАНДР ПЕТРОВИЧ\",\"iinBin\":\"791005350297\",\"totalArrear\":10125.26,\"totalTaxArrear\":10125.26,\"pensionContributionArrear\":0,\"socialContributionArrear\":0,\"socialHealthInsuranceArrear\":0,\"appealledAmount\":null,\"modifiedTermsAmount\":null,\"rehabilitaionProcedureAmount\":null,\"sendTime\":1577708485000,\"taxOrgInfo\":[{\"nameRu\":\"Республиканское государственное учреждение “Управление государственных доходов по Алматинскому району Департамента государственных доходов по городу Астане Комитета государственных доходов Министерства финансов Республики Казахстан”\",\"nameKk\":\"«Қазақстан Республикасы Қаржы министрлігінің Мемлекеттік кірістер комитеті Астана қаласы бойынша Мемлекеттік кірістер департаментінің Алматы ауданы бойынша Мемлекеттік кірістер басқармасы» республикалық мемлекеттік мекемесі\",\"charCode\":\"620201\",\"reportAcrualDate\":1577642400000,\"totalArrear\":10125.26,\"totalTaxArrear\":10125.26,\"pensionContributionArrear\":0,\"socialContributionArrear\":0,\"socialHealthInsuranceArrear\":0,\"appealledAmount\":null,\"modifiedTermsAmount\":null,\"rehabilitaionProcedureAmount\":null,\"taxPayerInfo\":[{\"nameRu\":\"ШЕПЕЛЕВ АЛЕКСАНДР ПЕТРОВИЧ\",\"nameKk\":\"ШЕПЕЛЕВ АЛЕКСАНДР ПЕТРОВИЧ\",\"iinBin\":\"791005350297\",\"totalArrear\":10125.26,\"bccArrearsInfo\":[{\"bcc\":\"104402\",\"bccNameRu\":\"Hалог на транспортные средства с физических лиц\",\"bccNameKz\":\"Жеке тұлғалардың көлiк құралдарына салынатын салық\",\"taxArrear\":9035,\"poenaArrear\":1090.26,\"percentArrear\":0,\"fineArrear\":0,\"totalArrear\":10125.26}]}]}]}", true);
         $this->saveInfo();
     }
 
@@ -95,7 +95,7 @@ class Info
         if (!$antiCaptcha->createTask()) {
             unlink($img);
 
-            throw new \Exception('Fuck off!');
+            throw new \Exception('Can`t create captcha task');
         }
 
         $this->request and $this->request->anti_capcha_task_id = $antiCaptcha->getTaskId();
@@ -103,7 +103,7 @@ class Info
         if (!$antiCaptcha->waitForResult()) {
             unlink($img);
 
-            throw new \Exception('Fuck off!');
+            throw new \Exception('Captcha does not answer');
         }
 
         $captchaText = $antiCaptcha->getTaskSolution();
@@ -122,36 +122,37 @@ class Info
 
     public function saveInfo()
     {
-        foreach ($this->json as $key => $val) {
+        //foreach ($this->json as $key => $val) {
+
             $user = new User();
-            $user->iin_bin = $val['iinBin'];
-            $user->name_ru = $val['nameRu'];
-            $user->name_kk = $val['nameKk'];
-            $user->total_arrear = $val['total_arrear'];
-            $user->total_tax_arrear = $val['total_tax_arrear'];
-            $user->pension_contribution_arrear = $val['pension_contribution_arrear'];
-            $user->social_contribution_arrear = $val['social_contribution_arrear'];
-            $user->social_health_insurance_arrear = $val['social_health_insurance_arrear'];
+            $user->iin_bin = $this->json['iinBin'];
+            $user->name_ru = $this->json['nameRu'];
+            $user->name_kk = $this->json['nameKk'];
+            $user->total_arrear = $this->json['totalArrear'];
+            $user->total_tax_arrear = $this->json['totalTaxArrear'];
+            $user->pension_contribution_arrear = $this->json['pensionContributionArrear'];
+            $user->social_contribution_arrear = $this->json['socialContributionArrear'];
+            $user->social_health_insurance_arrear = $this->json['socialHealthInsuranceArrear'];
             $user->save();
 
-            $this->request and $this->request->send_time = $val['sendTime'];
+            $this->request and $this->request->send_time = date("Y-m-d H:s:i", $this->json['sendTime']/1000);
             $this->request and $this->request->user_iin_bin = $user->iin_bin;
             $this->request and $this->request->save();
-
-            foreach ($val['taxOrgInfo'] as $org) {
-                $org = new Organisation();
-                $org->char_code = $org['charCode'];
-                $org->name_ru = $org['nameRu'];
-                $org->name_kk = $org['nameKk'];
-                $org->report_acrual_date = $org['reportAcrualDate'];
-                $org->save();
+            $tax_org_info = $this->json['taxOrgInfo'];
+            foreach ($tax_org_info as $org) {
+                $organisation = new Organisation();
+                $organisation->char_code = $org['charCode'];
+                $organisation->name_ru = $org['nameRu'];
+                $organisation->name_kk = $org['nameKk'];
+                $organisation->report_acrual_date =  date("Y-m-d H:s:i", $org['reportAcrualDate']/1000);
+                $organisation->save();
 
                 foreach ($org['taxPayerInfo'] as $payer) {
                     foreach ($payer['bccArrearsInfo'] as $arr) {
                         $arrear = new Arrear();
                         $arrear->bcc = $arr['bcc'];
                         $arrear->user_iin_bin = $user->iin_bin;
-                        $arrear->organisation_char_code = $org->char_code;
+                        $arrear->organisation_char_code = $organisation->char_code;
                         $arrear->bcc_name_ru = $arr['bccNameRu'];
                         $arrear->bcc_name_kz = $arr['bccNameKz'];
                         $arrear->tax_arrear = $arr['taxArrear'];
@@ -164,5 +165,5 @@ class Info
                 }
             }
         }
-    }
+    //}
 }

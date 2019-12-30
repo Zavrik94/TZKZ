@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Arrear;
 use app\models\Info;
+use app\models\search\ArrearSearch;
 use app\models\User;
 use app\models\InfoSearch;
 use yii\httpclient\Client;
@@ -66,12 +68,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
+        $searchModel = new ArrearSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $model = new User();
+        $model = new Arrear();
 
         if ($model->load(Yii::$app->request->post())) {
-            (new Info($model->iin_bin, Yii::$app->request->post('captcha_id')))->saveAllInfo();
+            (new Info($model->user_iin_bin, Yii::$app->request->post('captcha_id')))->saveAllInfo();
         }
 
         return $this->render('index', [

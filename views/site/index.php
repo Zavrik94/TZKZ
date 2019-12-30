@@ -5,9 +5,9 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
-/* @var $model app\models\User */
-/* @var $dataProvider app\models\User */
-/* @var $searchModel app\models\User */
+/* @var $model app\models\Arrear */
+/* @var $dataProvider app\models\Arrear */
+/* @var $searchModel app\models\Arrear */
 
 $this->title = 'Check IIN';
 ?>
@@ -19,7 +19,7 @@ $this->title = 'Check IIN';
     <?php Pjax::begin(); ?>
 
     <?php $form = ActiveForm::begin(); ?>
-        <?= $form->field($model, 'iin_bin')->textInput() ?>
+        <?= $form->field($model, 'user_iin_bin')->textInput() ?>
         <input type="hidden" id="captcha_id" name="captcha_id" value="">
         <div class="form-group">
             <?= Html::submitButton('Get Info', ['class' => 'btn btn-success']) ?>
@@ -40,10 +40,11 @@ $this->title = 'Check IIN';
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'iin_bin',
-            'name_ru',
+            'bcc',
+            'user_iin_bin',
+            'user.name_ru',
+            'organisation_char_code',
+            'bcc_name_ru',
             'total_arrear',
 
             ['class' => 'yii\grid\ActionColumn'],

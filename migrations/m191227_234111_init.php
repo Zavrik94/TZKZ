@@ -29,7 +29,7 @@ class m191227_234111_init extends Migration
             'id' => $this->primaryKey(),
 
             'user_iin_bin' => $this->string(),
-            'send_time' => $this->timestamp(),
+            'send_time timestamp(3) without time zone',
 
             'our_request' => $this->text(),
             'gov_response' => $this->text(),
