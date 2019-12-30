@@ -7,16 +7,16 @@ use Yii;
 /**
  * This is the model class for table "arrear".
  *
- * @property string|null $user_iin_bin
- * @property string|null $organisation_char_code
+ * @property string $user_iin_bin
+ * @property string $organisation_char_code
  * @property string $bcc
- * @property string|null $bcc_name_ru
- * @property string|null $bcc_name_kz
- * @property float|null $tax_arrear
- * @property float|null $poena_arrear
- * @property float|null $percent_arrear
- * @property float|null $fine_arrear
- * @property float|null $total_arrear
+ * @property string $bcc_name_ru
+ * @property string $bcc_name_kz
+ * @property float $tax_arrear
+ * @property float $poena_arrear
+ * @property float $percent_arrear
+ * @property float $fine_arrear
+ * @property float $total_arrear
  *
  * @property Organisation $organisationCharCode
  * @property User $userIinBin
@@ -37,7 +37,7 @@ class Arrear extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['bcc'], 'required'],
+            [['user_iin_bin', 'organisation_char_code', 'bcc', 'bcc_name_ru', 'bcc_name_kz', 'tax_arrear', 'poena_arrear', 'percent_arrear', 'fine_arrear', 'total_arrear'], 'required'],
             [['tax_arrear', 'poena_arrear', 'percent_arrear', 'fine_arrear', 'total_arrear'], 'number'],
             [['user_iin_bin', 'organisation_char_code', 'bcc', 'bcc_name_ru', 'bcc_name_kz'], 'string', 'max' => 255],
             [['bcc'], 'unique'],

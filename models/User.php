@@ -8,13 +8,13 @@ use Yii;
  * This is the model class for table "user".
  *
  * @property string $iin_bin
- * @property string|null $name_ru
- * @property string|null $name_kk
- * @property float|null $total_arrear
- * @property float|null $total_tax_arrear
- * @property float|null $pension_contribution_arrear
- * @property float|null $social_contribution_arrear
- * @property float|null $social_health_insurance_arrear
+ * @property string $name_ru
+ * @property string $name_kk
+ * @property float $total_arrear
+ * @property float $total_tax_arrear
+ * @property float $pension_contribution_arrear
+ * @property float $social_contribution_arrear
+ * @property float $social_health_insurance_arrear
  *
  * @property Arrear[] $arrears
  * @property Request[] $requests
@@ -35,7 +35,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['iin_bin'], 'required'],
+            [['iin_bin', 'name_ru', 'name_kk', 'total_arrear', 'total_tax_arrear', 'pension_contribution_arrear', 'social_contribution_arrear', 'social_health_insurance_arrear'], 'required'],
             [['total_arrear', 'total_tax_arrear', 'pension_contribution_arrear', 'social_contribution_arrear', 'social_health_insurance_arrear'], 'number'],
             [['iin_bin', 'name_ru', 'name_kk'], 'string', 'max' => 255],
             [['iin_bin'], 'unique'],

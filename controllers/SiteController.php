@@ -3,8 +3,10 @@
 namespace app\controllers;
 
 use app\models\Info;
+use app\models\User;
 use app\models\InfoSearch;
 use yii\httpclient\Client;
+use app\models\search\UserSearch;
 use app\models\AntiCaptcha\ImageToText;
 use Yii;
 use yii\filters\AccessControl;
@@ -65,24 +67,24 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        /*$searchModel = new InfoSearch();
-        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //$model = new Info();
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
-            $info = self::getInfo();
+            $info = Info::getInfo();
             if (!$info)
                 return false;
-
-            echo '<pre>';
-            var_export($info);
-            echo '</pre>';
-
+            $save = Info::saveInfo($info);
             die();
             //$model = new Info();
         }
-*/
-        return $this->render('index');
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => $model
+        ]);
     }
 
     /**
@@ -145,52 +147,6 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
-    }
-
-    private static function getInfo() {
-        $captcha_id =  Yii::$app->request->post('captcha_id');
-        $captcha = self::resolveCaptcha($captcha_id);
-        if (!$captcha)
-            return false;
-        $inn = Yii::$app->request->post('Info')['iin_bin'];
-        $client = new Client();
-        $response = $client->createRequest()
-            ->setMethod('post')
-            ->setUrl('http://kgd.gov.kz/apps/services/culs-taxarrear-search-web/rest/search')
-            ->addHeaders(['content-type' => 'application/json'])
-            ->setContent(json_encode(['iinBin' => $inn, 'captcha-user-value' => $captcha, 'captcha-id' => $captcha_id]))
-            ->send();
-        if (!$response->isOk)
-            return false;
-        return json_decode($response->content);
-    }
-
-
-    private static function resolveCaptcha($captcha_id) {
-        $img = self::getCapthaImg('http://kgd.gov.kz/apps/services/CaptchaWeb/generate?uid=' . $captcha_id);
-        $antiCaptcha = new ImageToText();
-        //$antiCaptcha->setVerboseMode(true);
-        $antiCaptcha->setKey(Yii::$app->params['captchaKey']);
-        $antiCaptcha->setFile($img);
-        if (!$antiCaptcha->createTask()) {
-            unlink($img);
-            return false;
-        }
-        $taskId = $antiCaptcha->getTaskId();
-        if (!$antiCaptcha->waitForResult()) {
-            unlink($img);
-            return false;
-        } else {
-            $captchaText = $antiCaptcha->getTaskSolution();
-        }
-        unlink($img);
-        return ($captchaText);
-    }
-
-    private static function getCapthaImg($url) {
-        $img = 'tmp/captcha.jpg';
-        file_put_contents($img, file_get_contents($url));
-        return $img;
     }
 
     private static function saveInfo($info) {
