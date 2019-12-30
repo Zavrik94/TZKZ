@@ -46,7 +46,7 @@ class Info
 
     public function saveAllInfo()
     {
-        /*$captcha = $this->resolveCaptcha();
+        $captcha = $this->resolveCaptcha();
         if (!$captcha) {
             throw new \Exception('Can`t resolve captcha');
         }
@@ -77,8 +77,7 @@ class Info
         $this->json = json_decode($response->content, true);
 
         //var_dump($this->json);
-        //die;*/
-        $this->json = json_decode("{\"nameRu\":\"ШЕПЕЛЕВ АЛЕКСАНДР ПЕТРОВИЧ\",\"nameKk\":\"ШЕПЕЛЕВ АЛЕКСАНДР ПЕТРОВИЧ\",\"iinBin\":\"791005350297\",\"totalArrear\":10125.26,\"totalTaxArrear\":10125.26,\"pensionContributionArrear\":0,\"socialContributionArrear\":0,\"socialHealthInsuranceArrear\":0,\"appealledAmount\":null,\"modifiedTermsAmount\":null,\"rehabilitaionProcedureAmount\":null,\"sendTime\":1577708485000,\"taxOrgInfo\":[{\"nameRu\":\"Республиканское государственное учреждение “Управление государственных доходов по Алматинскому району Департамента государственных доходов по городу Астане Комитета государственных доходов Министерства финансов Республики Казахстан”\",\"nameKk\":\"«Қазақстан Республикасы Қаржы министрлігінің Мемлекеттік кірістер комитеті Астана қаласы бойынша Мемлекеттік кірістер департаментінің Алматы ауданы бойынша Мемлекеттік кірістер басқармасы» республикалық мемлекеттік мекемесі\",\"charCode\":\"620201\",\"reportAcrualDate\":1577642400000,\"totalArrear\":10125.26,\"totalTaxArrear\":10125.26,\"pensionContributionArrear\":0,\"socialContributionArrear\":0,\"socialHealthInsuranceArrear\":0,\"appealledAmount\":null,\"modifiedTermsAmount\":null,\"rehabilitaionProcedureAmount\":null,\"taxPayerInfo\":[{\"nameRu\":\"ШЕПЕЛЕВ АЛЕКСАНДР ПЕТРОВИЧ\",\"nameKk\":\"ШЕПЕЛЕВ АЛЕКСАНДР ПЕТРОВИЧ\",\"iinBin\":\"791005350297\",\"totalArrear\":10125.26,\"bccArrearsInfo\":[{\"bcc\":\"104402\",\"bccNameRu\":\"Hалог на транспортные средства с физических лиц\",\"bccNameKz\":\"Жеке тұлғалардың көлiк құралдарына салынатын салық\",\"taxArrear\":9035,\"poenaArrear\":1090.26,\"percentArrear\":0,\"fineArrear\":0,\"totalArrear\":10125.26}]}]}]}", true);
+        //die;
         $this->saveInfo();
     }
 

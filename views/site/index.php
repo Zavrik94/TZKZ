@@ -42,7 +42,6 @@ $this->title = 'Check IIN';
             ['class' => 'yii\grid\SerialColumn'],
             'bcc',
             'user_iin_bin',
-            'user.name_ru',
             'organisation_char_code',
             'bcc_name_ru',
             'total_arrear',
