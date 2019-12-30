@@ -40,13 +40,28 @@ $this->title = 'Check IIN';
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'bcc',
-            'user_iin_bin',
-            'organisation_char_code',
+            [
+                'attribute' => 'bcc',
+                'value' => function (\app\models\Arrear $data) {
+                    return Html::a(Html::encode($data->bcc), \yii\helpers\Url::to(['arrear/view', 'id' => $data->bcc]));
+                },
+                'format' => 'raw'
+            ],
+            [
+                'attribute' => 'user_iin_bin',
+                'value' => function (\app\models\Arrear $data) {
+                    return Html::a(Html::encode($data->user_iin_bin), \yii\helpers\Url::to(['user/view', 'id' => $data->user_iin_bin]));
+                },
+                'format' => 'raw'
+            ],
+            ['attribute' => 'organisation_char_code',
+                'value' => function (\app\models\Arrear $data) {
+                    return Html::a(Html::encode($data->organisation_char_code), \yii\helpers\Url::to(['organisation/view', 'id' => $data->organisation_char_code]));
+                },
+                'format' => 'raw'],
             'bcc_name_ru',
             'total_arrear',
 
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

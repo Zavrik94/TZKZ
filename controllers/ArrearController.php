@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Arrear;
-use app\models\search\\ArrearSearch;
+use app\models\search\ArrearSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
