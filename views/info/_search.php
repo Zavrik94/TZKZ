@@ -20,25 +20,23 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'inn') ?>
+    <?= $form->field($model, 'iin_bin') ?>
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'name_ru') ?>
 
-    <?= $form->field($model, 'surname') ?>
+    <?= $form->field($model, 'name_kk') ?>
 
-    <?= $form->field($model, 'patro') ?>
+    <?= $form->field($model, 'total_arrear') ?>
 
-    <?php // echo $form->field($model, 'debt') ?>
+    <?php // echo $form->field($model, 'total_tax_arrear') ?>
 
-    <?php // echo $form->field($model, 'pension_debt') ?>
+    <?php // echo $form->field($model, 'pension_contribution_arrear') ?>
 
-    <?php // echo $form->field($model, 'medical_debt') ?>
+    <?php // echo $form->field($model, 'social_contribution_arrear') ?>
 
-    <?php // echo $form->field($model, 'social_debt') ?>
+    <?php // echo $form->field($model, 'social_health_insurance_arrear') ?>
 
-    <?php // echo $form->field($model, 'status_date') ?>
-
-    <?php // echo $form->field($model, 'create_date') ?>
+    <?php // echo $form->field($model, 'send_time') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

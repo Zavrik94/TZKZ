@@ -2,11 +2,9 @@
 
 namespace app\controllers;
 
-
 use Yii;
 use app\models\Info;
 use app\models\InfoSearch;
-
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -68,8 +66,9 @@ class InfoController extends Controller
     {
         $model = new Info();
 
-
-
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
 
         return $this->render('create', [
             'model' => $model,
@@ -125,49 +124,4 @@ class InfoController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    private static function getInfo() {
-        $captcha_id =  Yii::$app->request->post('captcha_id');
-        var_export($captcha_id);
-        die();
-        $captcha = self::resolveCaptcha($captcha_id);
-        $inn = Yii::$app->request->post('Info')['inn'];
-        $client = new Client();
-        $response = $client->createRequest()
-            ->setMethod('post')
-            ->setUrl('http://kgd.gov.kz/apps/services/culs-taxarrear-search-web/rest/search')
-            ->addHeaders(['content-type' => 'application/json'])
-            ->setContent(json_encode(['iinBin' => $inn, 'captcha-user-value' => $captcha, 'captcha-id' => $captcha_id]))
-            ->send();
-        return json_decode($response->content);
-    }
-
-
-    private static function resolveCaptcha($captcha_id) {
-        $img = self::getCapthaImg('http://kgd.gov.kz/apps/services/CaptchaWeb/generate?uid=' . $captcha_id);
-        $antiCaptcha = new ImageToText();
-        //$antiCaptcha->setVerboseMode(true);
-        $antiCaptcha->setKey('66f5fa58da14ec11bf8082004e0a82e4');
-        $antiCaptcha->setFile($img);
-        if (!$antiCaptcha->createTask()) {
-            unlink($img);
-            return false;
-        }
-        $taskId = $antiCaptcha->getTaskId();
-        if (!$antiCaptcha->waitForResult()) {
-            unlink($img);
-            return false;
-        } else {
-            $captchaText = $antiCaptcha->getTaskSolution();
-        }
-        unlink($img);
-        return ($captchaText);
-    }
-
-    private static function getCapthaImg($url) {
-        $img = 'tmp/captcha.jpg';
-        file_put_contents($img, file_get_contents($url));
-        return $img;
-    }
 }
-

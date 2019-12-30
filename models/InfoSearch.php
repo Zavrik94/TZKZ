@@ -18,8 +18,8 @@ class InfoSearch extends Info
     {
         return [
             [['id'], 'integer'],
-            [['inn', 'name', 'surname', 'patro', 'status_date', 'create_date'], 'safe'],
-            [['debt', 'pension_debt', 'medical_debt', 'social_debt'], 'number'],
+            [['iin_bin', 'name_ru', 'name_kk', 'send_time'], 'safe'],
+            [['total_arrear', 'total_tax_arrear', 'pension_contribution_arrear', 'social_contribution_arrear', 'social_health_insurance_arrear'], 'number'],
         ];
     }
 
@@ -60,18 +60,17 @@ class InfoSearch extends Info
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'debt' => $this->debt,
-            'pension_debt' => $this->pension_debt,
-            'medical_debt' => $this->medical_debt,
-            'social_debt' => $this->social_debt,
-            'status_date' => $this->status_date,
-            'create_date' => $this->create_date,
+            'total_arrear' => $this->total_arrear,
+            'total_tax_arrear' => $this->total_tax_arrear,
+            'pension_contribution_arrear' => $this->pension_contribution_arrear,
+            'social_contribution_arrear' => $this->social_contribution_arrear,
+            'social_health_insurance_arrear' => $this->social_health_insurance_arrear,
+            'send_time' => $this->send_time,
         ]);
 
-        $query->andFilterWhere(['ilike', 'inn', $this->inn])
-            ->andFilterWhere(['ilike', 'name', $this->name])
-            ->andFilterWhere(['ilike', 'surname', $this->surname])
-            ->andFilterWhere(['ilike', 'patro', $this->patro]);
+        $query->andFilterWhere(['ilike', 'iin_bin', $this->iin_bin])
+            ->andFilterWhere(['ilike', 'name_ru', $this->name_ru])
+            ->andFilterWhere(['ilike', 'name_kk', $this->name_kk]);
 
         return $dataProvider;
     }

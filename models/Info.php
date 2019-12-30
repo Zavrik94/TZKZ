@@ -8,16 +8,15 @@ use Yii;
  * This is the model class for table "info".
  *
  * @property int $id
- * @property string|null $inn
- * @property string|null $name
- * @property string|null $surname
- * @property string|null $patro
- * @property float|null $debt
- * @property float|null $pension_debt
- * @property float|null $medical_debt
- * @property float|null $social_debt
- * @property string|null $status_date
- * @property string|null $create_date
+ * @property string|null $iin_bin
+ * @property string|null $name_ru
+ * @property string|null $name_kk
+ * @property float|null $total_arrear
+ * @property float|null $total_tax_arrear
+ * @property float|null $pension_contribution_arrear
+ * @property float|null $social_contribution_arrear
+ * @property float|null $social_health_insurance_arrear
+ * @property string|null $send_time
  */
 class Info extends \yii\db\ActiveRecord
 {
@@ -35,9 +34,9 @@ class Info extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['debt', 'pension_debt', 'medical_debt', 'social_debt'], 'number'],
-            [['status_date', 'create_date'], 'safe'],
-            [['inn', 'name', 'surname', 'patro'], 'string', 'max' => 255],
+            [['total_arrear', 'total_tax_arrear', 'pension_contribution_arrear', 'social_contribution_arrear', 'social_health_insurance_arrear'], 'number'],
+            [['send_time'], 'safe'],
+            [['iin_bin', 'name_ru', 'name_kk'], 'string', 'max' => 255],
         ];
     }
 
@@ -48,16 +47,15 @@ class Info extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'inn' => 'Inn',
-            'name' => 'Name',
-            'surname' => 'Surname',
-            'patro' => 'Patro',
-            'debt' => 'Debt',
-            'pension_debt' => 'Pension Debt',
-            'medical_debt' => 'Medical Debt',
-            'social_debt' => 'Social Debt',
-            'status_date' => 'Status Date',
-            'create_date' => 'Create Date',
+            'iin_bin' => 'Iin Bin',
+            'name_ru' => 'Name Ru',
+            'name_kk' => 'Name Kk',
+            'total_arrear' => 'Total Arrear',
+            'total_tax_arrear' => 'Total Tax Arrear',
+            'pension_contribution_arrear' => 'Pension Contribution Arrear',
+            'social_contribution_arrear' => 'Social Contribution Arrear',
+            'social_health_insurance_arrear' => 'Social Health Insurance Arrear',
+            'send_time' => 'Send Time',
         ];
     }
 }

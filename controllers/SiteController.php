@@ -73,14 +73,19 @@ class SiteController extends Controller
             $info = self::getInfo();
             if (!$info)
                 return false;
-            //save to BD
+
+            echo '<pre>';
+            var_export($info);
+            echo '</pre>';
+
+            die();
             $model = new Info();
         }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model' => $model
+           'model' => $model
         ]);
     }
 
@@ -151,7 +156,7 @@ class SiteController extends Controller
         $captcha = self::resolveCaptcha($captcha_id);
         if (!$captcha)
             return false;
-        $inn = Yii::$app->request->post('Info')['inn'];
+        $inn = Yii::$app->request->post('Info')['iin_bin'];
         $client = new Client();
         $response = $client->createRequest()
             ->setMethod('post')
@@ -190,5 +195,9 @@ class SiteController extends Controller
         $img = 'tmp/captcha.jpg';
         file_put_contents($img, file_get_contents($url));
         return $img;
+    }
+
+    private static function saveInfo($info) {
+
     }
 }

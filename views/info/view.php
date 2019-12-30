@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Info */
 
-$this->title = $model->name;
+$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Infos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -30,16 +30,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'inn',
-            'name',
-            'surname',
-            'patro',
-            'debt',
-            'pension_debt',
-            'medical_debt',
-            'social_debt',
-            'status_date',
-            'create_date',
+            'iin_bin',
+            'name_ru',
+            'name_kk',
+            'total_arrear',
+            'total_tax_arrear',
+            'pension_contribution_arrear',
+            'social_contribution_arrear',
+            'social_health_insurance_arrear',
+            'send_time',
         ],
     ]) ?>
 

@@ -19,7 +19,7 @@ $this->title = 'Check IIN';
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'inn')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'iin_bin')->textInput(['maxlength' => true]) ?>
 
     <input type="hidden" id="captcha_id" name="captcha_id" value="">
 
@@ -44,16 +44,9 @@ $this->title = 'Check IIN';
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'inn',
-            'name',
-            'surname',
-            'patro',
-            //'debt',
-            //'pension_debt',
-            //'medical_debt',
-            //'social_debt',
-            //'status_date',
-            //'create_date',
+            'iin_bin',
+            'name_ru',
+            'total_arrear',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
