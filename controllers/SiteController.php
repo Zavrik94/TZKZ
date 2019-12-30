@@ -62,7 +62,6 @@ class SiteController extends Controller
 
     /**
      * Displays homepage.
-     *
      * @return string
      */
     public function actionIndex()
@@ -72,24 +71,18 @@ class SiteController extends Controller
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
-            $info = Info::getInfo();
-            if (!$info)
-                return false;
-            $save = Info::saveInfo($info);
-            die();
-            //$model = new Info();
+            (new Info($model->iin_bin, Yii::$app->request->post('captcha_id')))->saveAllInfo();
         }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model' => $model
+            'model' => $model,
         ]);
     }
 
     /**
      * Login action.
-     *
      * @return Response|string
      */
     public function actionLogin()
@@ -104,6 +97,7 @@ class SiteController extends Controller
         }
 
         $model->password = '';
+
         return $this->render('login', [
             'model' => $model,
         ]);
@@ -111,7 +105,6 @@ class SiteController extends Controller
 
     /**
      * Logout action.
-     *
      * @return Response
      */
     public function actionLogout()
@@ -123,7 +116,6 @@ class SiteController extends Controller
 
     /**
      * Displays contact page.
-     *
      * @return Response|string
      */
     public function actionContact()
@@ -134,6 +126,7 @@ class SiteController extends Controller
 
             return $this->refresh();
         }
+
         return $this->render('contact', [
             'model' => $model,
         ]);
@@ -141,7 +134,6 @@ class SiteController extends Controller
 
     /**
      * Displays about page.
-     *
      * @return string
      */
     public function actionAbout()
@@ -149,7 +141,7 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    private static function saveInfo($info) {
-
+    private static function saveInfo($info)
+    {
     }
 }

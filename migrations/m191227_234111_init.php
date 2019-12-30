@@ -27,8 +27,14 @@ class m191227_234111_init extends Migration
 
         $this->createTable('request', [
             'id' => $this->primaryKey(),
-            'user_iin_bin' => $this->string()->notNull(),
-            'sendTime' => $this->timestamp()->notNull(),
+
+            'user_iin_bin' => $this->string(),
+            'send_time' => $this->timestamp(),
+
+            'our_request' => $this->text(),
+            'gov_response' => $this->text(),
+            'is_ok' => $this->boolean(),
+            'anti_capcha_task_id' => $this->integer(),
         ]);
         $this->addForeignKey(
             'FK_request__TO__user__ON__user_iin_bin',

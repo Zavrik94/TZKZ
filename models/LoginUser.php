@@ -5,9 +5,13 @@ namespace app\models;
 class LoginUser extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
     public $id;
+
     public $username;
+
     public $password;
+
     public $authKey;
+
     public $accessToken;
 
     private static $users = [
@@ -26,7 +30,6 @@ class LoginUser extends \yii\base\BaseObject implements \yii\web\IdentityInterfa
             'accessToken' => '101-token',
         ],
     ];
-
 
     /**
      * {@inheritdoc}
@@ -54,6 +57,7 @@ class LoginUser extends \yii\base\BaseObject implements \yii\web\IdentityInterfa
      * Finds user by username
      *
      * @param string $username
+     *
      * @return static|null
      */
     public static function findByUsername($username)
@@ -95,6 +99,7 @@ class LoginUser extends \yii\base\BaseObject implements \yii\web\IdentityInterfa
      * Validates password
      *
      * @param string $password password to validate
+     *
      * @return bool if password provided is valid for current user
      */
     public function validatePassword($password)

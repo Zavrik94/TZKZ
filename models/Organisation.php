@@ -6,12 +6,10 @@ use Yii;
 
 /**
  * This is the model class for table "organisation".
- *
- * @property string $char_code
- * @property string $name_ru
- * @property string $name_kk
- * @property string $report_acrual_date
- *
+ * @property string   $char_code
+ * @property string   $name_ru
+ * @property string   $name_kk
+ * @property string   $report_acrual_date
  * @property Arrear[] $arrears
  */
 class Organisation extends \yii\db\ActiveRecord
