@@ -114,6 +114,8 @@ class Info
     private function getCapthaImg($url)
     {
         $img = 'tmp/captcha.jpg';
+        if (!is_dir("tmp"))
+            mkdir("tmp");
         file_put_contents($img, file_get_contents($url));
 
         return $img;
