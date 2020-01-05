@@ -124,7 +124,8 @@ class Info
     public function saveInfo()
     {
         //foreach ($this->json as $key => $val) {
-
+            if (isset($this->json['captchaError']))
+                throw new \Exception($this->json['captchaError']);
             $user = new User();
             $user->iin_bin = $this->json['iinBin'];
             $user->name_ru = $this->json['nameRu'];
@@ -140,30 +141,35 @@ class Info
             $this->request and $this->request->user_iin_bin = $user->iin_bin;
             $this->request and $this->request->save();
             $tax_org_info = $this->json['taxOrgInfo'];
-            foreach ($tax_org_info as $org) {
-                $organisation = new Organisation();
-                $organisation->char_code = $org['charCode'];
-                $organisation->name_ru = $org['nameRu'];
-                $organisation->name_kk = $org['nameKk'];
-                $organisation->report_acrual_date =  date("Y-m-d H:s:i", $org['reportAcrualDate']/1000);
-                $organisation->save();
+            if (is_array($tax_org_info)) {
+                foreach ($tax_org_info as $org) {
+                    $organisation = new Organisation();
+                    $organisation->char_code = $org['charCode'];
+                    $organisation->name_ru = $org['nameRu'];
+                    $organisation->name_kk = $org['nameKk'];
+                    $organisation->report_acrual_date =  date("Y-m-d H:s:i", $org['reportAcrualDate']/1000);
+                    $organisation->save();
 
-                foreach ($org['taxPayerInfo'] as $payer) {
-                    foreach ($payer['bccArrearsInfo'] as $arr) {
-                        $arrear = new Arrear();
-                        $arrear->bcc = $arr['bcc'];
-                        $arrear->user_iin_bin = $user->iin_bin;
-                        $arrear->organisation_char_code = $organisation->char_code;
-                        $arrear->bcc_name_ru = $arr['bccNameRu'];
-                        $arrear->bcc_name_kz = $arr['bccNameKz'];
-                        $arrear->tax_arrear = $arr['taxArrear'];
-                        $arrear->poena_arrear = $arr['poenaArrear'];
-                        $arrear->percent_arrear = $arr['percentArrear'];
-                        $arrear->fine_arrear = $arr['fineArrear'];
-                        $arrear->total_arrear = $arr['totalArrear'];
-                        $arrear->save();
+                    foreach ($org['taxPayerInfo'] as $payer) {
+                        foreach ($payer['bccArrearsInfo'] as $arr) {
+                            $arrear = new Arrear();
+                            $arrear->bcc = $arr['bcc'];
+                            $arrear->user_iin_bin = $user->iin_bin;
+                            $arrear->organisation_char_code = $organisation->char_code;
+                            $arrear->bcc_name_ru = $arr['bccNameRu'];
+                            $arrear->bcc_name_kz = $arr['bccNameKz'];
+                            $arrear->tax_arrear = $arr['taxArrear'];
+                            $arrear->poena_arrear = $arr['poenaArrear'];
+                            $arrear->percent_arrear = $arr['percentArrear'];
+                            $arrear->fine_arrear = $arr['fineArrear'];
+                            $arrear->total_arrear = $arr['totalArrear'];
+                            $arrear->save();
+                        }
                     }
                 }
+            }
+            else {
+                throw new \Exception('Wrong input data');
             }
         }
     //}
